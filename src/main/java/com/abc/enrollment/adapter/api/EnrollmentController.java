@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abc.enrollment.adapter.apiclient.model.CourseRequest;
+import com.abc.enrollment.adapter.apiclient.model.EnrollmentRequest;
 import com.abc.enrollment.adapter.apiclient.model.SemesterRequest;
 import com.abc.enrollment.adapter.apiclient.model.StudentRequest;
 import com.abc.enrollment.domain.Course;
 import com.abc.enrollment.domain.CourseRepository;
+import com.abc.enrollment.domain.Enrollment;
+import com.abc.enrollment.domain.EnrollmentRepository;
 import com.abc.enrollment.domain.Semester;
 import com.abc.enrollment.domain.SemesterRepository;
 import com.abc.enrollment.domain.Student;
@@ -36,11 +39,14 @@ public class EnrollmentController {
 
 	private final CourseRepository courseRepository;
 
+	private final EnrollmentRepository enrollmentRepository;
+
 	public EnrollmentController(StudentRepository studentRepository, SemesterRepository semesterRepository,
-			CourseRepository courseRepository) {
+			CourseRepository courseRepository, EnrollmentRepository enrollmentRepository) {
 		this.studentRepository = studentRepository;
 		this.semesterRepository = semesterRepository;
 		this.courseRepository = courseRepository;
+		this.enrollmentRepository = enrollmentRepository;
 
 	}
 
@@ -98,5 +104,17 @@ public class EnrollmentController {
 						.id(courseRepository.findByClassId(courseRequest.getClassId()).get().getId())
 						.credits(courseRequest.getCredits()).build())
 				.getClassId());
+	}
+
+	@PostMapping(value = "/enroll", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> enroll(@RequestBody EnrollmentRequest enrollmentRequest) {
+
+		enrollmentRequest.getEnrollments().forEach(enrollment -> {
+			enrollmentRepository.save(Enrollment.builder().classId(enrollment.getClassId())
+					.semesterId(enrollment.getSemesterId()).studentId(enrollmentRequest.getStudentId()).build());
+
+		});
+
+		return ResponseEntity.ok("Enrolled");
 	}
 }
