@@ -25,28 +25,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "STUDENT")
+@Table(name = "SEMESTER")
 @Setter
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class StudentEntity implements Transformer<StudentEntity> {
+public class SemesterEntity implements Transformer<SemesterEntity> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-
-	@Column(name = "student_id")
-	private String studentId;
-
-	@Column(name = "first_name")
-	private String firstName;
-
-	@Column(name = "last_name")
-	private String lastName;
 	
+	@Column(name = "sem_id")
+	private String semesterId;
+
+	@Column(name = "sem_name")
+	private String semesterName;
+
     @CreatedDate
 	@Column(name = "created_date",updatable = false)
 	private Instant createdDate;
@@ -60,7 +57,7 @@ public class StudentEntity implements Transformer<StudentEntity> {
 	private Instant lastUpdatedDate;
 
 	@Override
-	public <R> R transform(Function<StudentEntity, R> f) {
+	public <R> R transform(Function<SemesterEntity, R> f) {
 		return f.apply(this);
 
 	}

@@ -1,5 +1,7 @@
 package com.abc.enrollment.adapter.datastore;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.abc.enrollment.domain.Student;
@@ -20,9 +22,8 @@ public class StudentEntityRepository implements StudentRepository, StudentEntity
 	}
 
 	@Override
-	public Student update(Student student) {
-		return repository.save(student.transform(fromStudent())).transform(toStudent());
-
+	public Optional<Student> findByStudentId(String studentId) {
+		return repository.findByStudentId(studentId).map(toStudent());
 	}
 
 }
