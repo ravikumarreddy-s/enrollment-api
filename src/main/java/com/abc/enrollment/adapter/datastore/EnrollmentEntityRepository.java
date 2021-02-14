@@ -1,5 +1,7 @@
 package com.abc.enrollment.adapter.datastore;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Component;
 
 import com.abc.enrollment.domain.Enrollment;
@@ -17,6 +19,16 @@ public class EnrollmentEntityRepository implements EnrollmentRepository, Enrollm
 	@Override
 	public Enrollment save(Enrollment enrollment) {
 		return repository.save(enrollment.transform(fromEnrollment())).transform(toEnrollment());
+	}
+
+	@Override
+	public Collection<Object[]> findAllStudentsEnrolledInAClassForSemester(String semesterId) {
+		return repository.findAllStudentsEnrolledInAClassForSemester(semesterId);
+	}
+
+	@Override
+	public Collection<Object[]> findAllClassesForAStudentForSemester(String studentId, String semesterId) {
+		return repository.findAllClassesForAStudentForSemester(studentId, semesterId);
 	}
 
 }
