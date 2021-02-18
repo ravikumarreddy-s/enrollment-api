@@ -31,4 +31,9 @@ public class EnrollmentEntityRepository implements EnrollmentRepository, Enrollm
 		return repository.findAllClassesForAStudentForSemester(studentId, semesterId);
 	}
 
+	@Override
+	public Integer findCreditsForStudentForSemester(String studentId, String semesterId) {
+		return repository.findCreditsForStudentForSemester(studentId, semesterId);
+	}
+
 }

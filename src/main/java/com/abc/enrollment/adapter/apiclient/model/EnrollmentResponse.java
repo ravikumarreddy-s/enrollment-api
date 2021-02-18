@@ -1,8 +1,5 @@
 package com.abc.enrollment.adapter.apiclient.model;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,15 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentRequest {
+public class EnrollmentResponse {
 	
-	@NotEmpty
-	private String studentId;
-
-	@NotEmpty
-	private String firstName;
-
-	@NotEmpty
-	private String lastName;
+	private String code;
+	
+	private String message;
 
 }

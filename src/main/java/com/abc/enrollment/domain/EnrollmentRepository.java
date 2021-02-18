@@ -10,5 +10,6 @@ public interface EnrollmentRepository {
 	
 	Collection<Object[]> findAllClassesForAStudentForSemester(String studentId,String semesterId);
 
+	Integer findCreditsForStudentForSemester(String studentId,String semesterId);
 
 }

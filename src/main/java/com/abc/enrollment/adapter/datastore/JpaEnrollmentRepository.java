@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface JpaEnrollmentRepository extends JpaRepository<EnrollmentEntity, Long> {
 
-	@Query(value = "SELECT E.STUDENT_ID,S.FIRST_NAME FROM ENROLLMENT E,  STUDENT S , SEMESTER S2, CLASS C WHERE E.STUDENT_ID=S.STUDENT_ID and E.SEM_ID = S2.SEM_ID and E.CLASS_ID=C.CLASS_ID and E.SEM_ID=?1", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT E.STUDENT_ID,S.FIRST_NAME FROM ENROLLMENT E,  STUDENT S , SEMESTER S2, CLASS C WHERE E.STUDENT_ID=S.STUDENT_ID and E.SEM_ID = S2.SEM_ID and E.CLASS_ID=C.CLASS_ID and E.SEM_ID=?1", nativeQuery = true)
 	Collection<Object[]> findAllStudentsEnrolledInAClassForSemester(String semesterId);
 	
 	@Query(value = "SELECT C.CLASS_ID,C.CLASS_NAME FROM ENROLLMENT E,  STUDENT S , SEMESTER S2, CLASS C WHERE E.STUDENT_ID=S.STUDENT_ID and E.SEM_ID = S2.SEM_ID and E.CLASS_ID=C.CLASS_ID and E.STUDENT_ID=?1 AND E.SEM_ID=?2", nativeQuery = true)
 	Collection<Object[]> findAllClassesForAStudentForSemester(String studentId,String semesterId);
+	
+	@Query(value = "SELECT SUM(C.CREDITS) FROM ENROLLMENT E, CLASS C WHERE  E.CLASS_ID=C.CLASS_ID and E.STUDENT_ID=?1 and E.SEM_ID=?2 ", nativeQuery = true)
+	Integer findCreditsForStudentForSemester(String studentId,String semesterId);
 
 }
