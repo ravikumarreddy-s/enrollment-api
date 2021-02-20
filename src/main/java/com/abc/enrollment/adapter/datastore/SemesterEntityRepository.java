@@ -2,13 +2,12 @@ package com.abc.enrollment.adapter.datastore;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.abc.enrollment.domain.Semester;
 import com.abc.enrollment.domain.SemesterRepository;
-import com.abc.enrollment.domain.Student;
 
-@Component
+@Repository
 public class SemesterEntityRepository implements SemesterRepository, SemesterEntityTransformer {
 
 	private final JpaSemesterRepository repository;

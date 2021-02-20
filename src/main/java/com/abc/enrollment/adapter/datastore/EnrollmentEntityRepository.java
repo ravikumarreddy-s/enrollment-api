@@ -2,12 +2,12 @@ package com.abc.enrollment.adapter.datastore;
 
 import java.util.Collection;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.abc.enrollment.domain.Enrollment;
 import com.abc.enrollment.domain.EnrollmentRepository;
 
-@Component
+@Repository
 public class EnrollmentEntityRepository implements EnrollmentRepository, EnrollmentEntityTransformer {
 
 	private final JpaEnrollmentRepository repository;
