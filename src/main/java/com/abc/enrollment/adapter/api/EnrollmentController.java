@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -48,6 +50,8 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @Validated
 public class EnrollmentController {
+	
+    Logger logger = LoggerFactory.getLogger(EnrollmentController.class);
 
 	private final StudentRepository studentRepository;
 
@@ -79,6 +83,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@PostMapping(value = "/student", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EnrollmentResponse> createStudent(@Valid @RequestBody StudentRequest studentRequest) {
+		logger.info("Creating student record");
 		return ResponseEntity.ok(EnrollmentResponse.builder().code("200")
 				.message(studentRepository.save(Student.builder().firstName(studentRequest.getFirstName())
 						.lastName(studentRequest.getLastName()).studentId(studentRequest.getStudentId()).build())
@@ -93,6 +98,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@PutMapping(value = "/student", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EnrollmentResponse> updateStudent(@Valid @RequestBody StudentRequest studentRequest) {
+		logger.info("Updating student record");
 		return ResponseEntity
 				.ok(EnrollmentResponse.builder().code("200")
 						.message(
@@ -114,7 +120,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@PostMapping(value = "/semester", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EnrollmentResponse> createSemester(@RequestBody SemesterRequest semesterRequest) {
-
+		logger.info("Creating semester record");
 		return ResponseEntity.ok(EnrollmentResponse.builder().code("200")
 				.message(semesterRepository
 						.save(Semester.builder().semesterName(semesterRequest.getSemesterName())
@@ -130,6 +136,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@PutMapping(value = "/semester", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EnrollmentResponse> updateSemester(@RequestBody SemesterRequest semesterRequest) {
+		logger.info("Updating semester record");
 		return ResponseEntity
 				.ok(EnrollmentResponse.builder().code("200")
 						.message(
@@ -150,6 +157,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@PostMapping(value = "/course", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EnrollmentResponse> createCourse(@RequestBody CourseRequest courseRequest) {
+		logger.info("Creating course record");
 		return ResponseEntity
 				.ok(EnrollmentResponse.builder().code("200")
 						.message(courseRepository.save(Course.builder().classId(courseRequest.getClassId())
@@ -165,6 +173,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@PutMapping(value = "/course", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EnrollmentResponse> updateCourse(@RequestBody CourseRequest courseRequest) {
+		logger.info("Updating course record");
 		return ResponseEntity
 				.ok(EnrollmentResponse.builder().code("200")
 						.message(
@@ -185,7 +194,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@PostMapping(value = "/enroll", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EnrollmentResponse> enroll(@RequestBody EnrollmentRequest enrollmentRequest) {
-
+		logger.info("Enrolling student");
 		int credits = enrollmentRequest.getEnrollments().stream()
 				.mapToInt(c -> courseRepository.findByClassId(c.getClassId()).get().getCredits()).sum();
 //		int oldCredits= enrollmentRepository.findCreditsForStudentForSemester(enrollmentRequest, null)
@@ -213,6 +222,7 @@ public class EnrollmentController {
 			@ApiResponse(code = 500, message = "Internal server Error") })
 	@GetMapping(value = "/fetch-students", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<StudentResponse> getStudentsBySemester(@RequestParam String semId) {
+		logger.info("Getting student by SemesiterId {}",semId);
 		return ResponseEntity.ok(StudentResponse.builder()
 				.students(enrollmentRepository.findAllStudentsEnrolledInAClassForSemester(semId).stream()
 						.map(e -> Students.builder().studentId(e[0].toString()).studentName(e[1].toString()).build())
@@ -228,6 +238,7 @@ public class EnrollmentController {
 	@GetMapping(value = "/fetch-courses", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CourseResponse> getCoursesBtSemesterAndStudent(@RequestParam String semId,
 			@RequestParam String studentId) {
+		logger.info("Getting courses by SemesiterId {} and StudentId {}",semId,studentId);
 		return ResponseEntity.ok(CourseResponse.builder()
 				.courses(enrollmentRepository.findAllClassesForAStudentForSemester(studentId, semId).stream()
 						.map(e -> Courses.builder().courseId(e[0].toString()).courseName(e[1].toString()).build())
