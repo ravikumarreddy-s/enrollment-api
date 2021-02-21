@@ -26,9 +26,36 @@ The following items should be installed in your system:
 * Your preferred IDE 
   * [Spring Tools Suite](https://spring.io/tools) (STS)
   * IntelliJ IDEA
-## Code coverage using Jacoco
+
+### Steps:
+1) On the command line
+    ```
+    git clone https://github.com/ravikumarreddy-s/enrollment-api.git
+    ```
+2) Inside Eclipse or STS
+    ```
+    File -> Import -> Maven -> Existing Maven project
+    ```
+3) Run as a Springboot application.
+
+4) Navigate to SwaggerUI  and validate the APIs
+
+    Visit [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/) in your browser.
+    
+## To check Code coverage using Jacoco
 ```
 mvn clean install
 ```
 The Jacoco coverage report is available here target/site/jacoco/index.html 
 <img width="1042" alt="Tables-screenshot" src="https://github.com/ravikumarreddy-s/enrollment-api/blob/develop/screenshots/jacoco-report.jpg">
+
+## Running Enrollment-API in AWS
+Created buildspec.yml and appsec.yml files for AWS codebuild. 
+Created a cloudbuild project and the generated artifact can be uploaded to S3.
+We can use the AWS service Codedeploy to deploy the artifact to a EC2 or configure CodePipeline where we can chain the codebuild and deploy using ElasticBeanStalk.
+
+### Codebuild Build status
+<img width="1042" alt="Codebuild-screenshot" src="https://github.com/ravikumarreddy-s/enrollment-api/blob/develop/screenshots/Codebuild.jpg">
+
+
+
