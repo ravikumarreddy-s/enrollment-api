@@ -42,6 +42,10 @@ The following items should be installed in your system:
 
     Visit [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/) in your browser.
     
+## Junit report
+<img width="1042" alt="Tables-screenshot" src="https://github.com/ravikumarreddy-s/enrollment-api/blob/develop/screenshots/Junit-report.jpg">
+
+
 ## To check Code coverage using Jacoco
 ```
 mvn clean install
@@ -55,7 +59,7 @@ Created a cloudbuild project and the generated artifact can be uploaded to S3.
 We can use the AWS service Codedeploy to deploy the artifact to a EC2 or configure CodePipeline where we can chain the codebuild and deploy using ElasticBeanStalk.
 
 ### Codebuild Build status
-<img width="1042" alt="Codebuild-screenshot" src="https://github.com/ravikumarreddy-s/enrollment-api/blob/develop/screenshots/Codebuild.jpg">
+<img width="720" alt="Codebuild-screenshot" src="https://github.com/ravikumarreddy-s/enrollment-api/blob/develop/screenshots/Codebuild.jpg">
 
 
 
