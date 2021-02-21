@@ -70,12 +70,6 @@ public class EnrollmentController {
 
 	}
 
-	@GetMapping("/health")
-	public ResponseEntity<String> health() {
-		System.out.println("Inside health");
-		return ok().build();
-	}
-
 	@ApiOperation(notes = "This endpoint add new students", value = "Creates Student")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Student record created successfully", response = EnrollmentResponse.class),
